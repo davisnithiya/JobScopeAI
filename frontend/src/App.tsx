@@ -17,13 +17,15 @@ export default function App() {
   const [updatedMinutes, setUpdatedMinutes] = useState(1440)
   const [jobs, setJobs] = useState<Job[]>([])
   const [loading, setLoading] = useState(false)
+  const [providers, setProviders] = useState('adzuna,rapidapi')
 
   async function loadJobs() {
     setLoading(true)
     try {
-      const params: any = { updatedSinceMinutes: updatedMinutes }
+    const params: any = { updatedSinceMinutes: updatedMinutes }
       if (skills) params.skills = skills
       if (location) params.location = location
+    if (providers) params.providers = providers
       const res = await axios.get('/api/jobs', { params })
       setJobs(res.data)
     } catch (err: any) {
@@ -53,11 +55,12 @@ export default function App() {
 
       <div style={{ marginTop: 12 }}>
         {loading ? <em>Loading...</em> : (
-          jobs.length === 0 ? <div>No results</div> : (
+      jobs.length === 0 ? <div>No results</div> : (
             jobs.map(j => (
               <div key={j.id} style={{ padding: 12, borderBottom: '1px solid #eee' }}>
                 <div style={{ fontWeight: 600 }}>{j.title}</div>
-                <div style={{ color: '#666' }}>{j.company} — {j.location} <small>({j.source})</small></div>
+            <div style={{ color: '#666' }}>{j.company} — {j.location} <small>({j.source})</small></div>
+            {j.url && <div style={{ marginTop: 6 }}><a href={j.url} target="_blank" rel="noreferrer">View job</a></div>}
                 <div style={{ marginTop: 6 }}><strong>Skills:</strong> {j.skills.join(', ')}</div>
                 <div style={{ marginTop: 6, color: '#888' }}>Updated: {new Date(j.updatedAt).toLocaleString()}</div>
               </div>
