@@ -173,4 +173,4 @@ mvn -v
 This repository is a demo; ensure you follow API provider terms of service when using provider APIs.
 
 ---
-If you want, I can also push this README to the `main` branch on GitHub (I will run git add/commit/push). Tell me to proceed.
+
